@@ -20,6 +20,14 @@ class UnitCounter(object):
         self._count = value
         self._info = ""
 
+    def __repr__(self):
+        """Return a string representing this counter. The representation ignores _info"""
+
+        #prefix = self._name
+        #prefix += " " * (NAME_LEN - len(self._name))
+        #return prefix + ": %d"
+        return '{:32}: '.format(self._name) + '{:>8}'.format(self._count)
+
     def getCount(self):
         """Getter for _count"""
         return self._count
@@ -44,10 +52,11 @@ class UnitCounter(object):
         """Setter for _info"""
         self._info = info
 
-    def printCount(self, extended = False):
+    def printCounter(self, extended = False):
         """Print the name and value of the counter. Also print info if extended is True."""
 
-        prefix = self._name
-        prefix += " " * (NAME_LEN - len(self._name))
-        print(prefix + ": " + str(self._count))
+        if extended:
+            print(str(self) + "   " + self.getInfo())
+        else:
+            print(self)
         #Printing info is not implemented yet. Should look into right-adjusting the count first.
