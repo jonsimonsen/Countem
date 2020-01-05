@@ -21,11 +21,13 @@ class UnitCounter(object):
         self._info = ""
 
     def __repr__(self):
-        """Return a string representing this counter. The representation ignores _info"""
+        """Return a string representing this counter."""
 
-        #prefix = self._name
-        #prefix += " " * (NAME_LEN - len(self._name))
-        #return prefix + ": %d"
+        return '{:32}: '.format(self._name) + '{:>8}   - '.format(self._count) + self._info
+
+    def __str__(self):
+        """Returns a string representing this counter. Unlike repr, it ignores info."""
+
         return '{:32}: '.format(self._name) + '{:>8}'.format(self._count)
 
     def getCount(self):
@@ -56,7 +58,11 @@ class UnitCounter(object):
         """Print the name and value of the counter. Also print info if extended is True."""
 
         if extended:
-            print(str(self) + "   " + self.getInfo())
+            print(repr(self))
         else:
-            print(self)
-        #Printing info is not implemented yet. Should look into right-adjusting the count first.
+            print(str(self))
+
+    def writeToFile(self, handle):
+        """Write the representation of this counter to the file connected to handle. Assumes that the file is in 'w' or 'a' mode."""
+        handle.write(repr(self) + '\n')
+        

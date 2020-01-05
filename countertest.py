@@ -24,5 +24,9 @@ counters[0].setInfo("The bananas were stolen :(")
 print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + counters[0].getInfo())
 print('')   #Add newline
 
+file = open('output.txt', 'w')
 for counter in counters:
     counter.printCounter(True)
+    counter.writeToFile(file)
+
+file.close()
