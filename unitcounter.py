@@ -30,7 +30,7 @@ class UnitCounter(object):
 
     def addToCount(self, increment):
         """Increase count by the given increment. Increment can be negative"""
-        self._count += value
+        self._count += increment
 
     def getName(self):
         """Getter for _name"""
@@ -51,4 +51,3 @@ class UnitCounter(object):
         prefix += " " * (NAME_LEN - len(self._name))
         print(prefix + ": " + str(self._count))
         #Printing info is not implemented yet. Should look into right-adjusting the count first.
-        
