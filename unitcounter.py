@@ -20,7 +20,11 @@ class UnitCounter(object):
         else:
             self._name = description
 
-        self._count = value
+        if isinstance(value, int):
+            self._count = value
+        else:
+            print('The counter requires an integer as its value. It will be initialized to zero.\n')
+            self._count = 0
         self._info = ""
 
     def __repr__(self):
@@ -39,11 +43,17 @@ class UnitCounter(object):
 
     def setCount(self, value):
         """Setter for _count"""
-        self._count = value
+        if isinstance(value, int):
+            self._count = value
+        else:
+            print('The count must be set to an integer value. It will remain unchanged for now.\n')
 
     def addToCount(self, increment):
         """Increase count by the given increment. Increment can be negative"""
-        self._count += increment
+        if isinstance(increment, int):
+            self._count += increment
+        else:
+            print('Additions to the count must be integers. Nothing will be added for now.\n')
 
     def getName(self):
         """Getter for _name"""

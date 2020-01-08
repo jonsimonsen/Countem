@@ -2,7 +2,7 @@ from unitcounter import UnitCounter
 from unitcounter import readCounters
 
 UNITS = ["bananas", "breads", "chocolate chip cookies", "eggs", "fishes", "milk bottles", "potatoes", "abcdefghijklmnopqrstuvwxyz1234567890"]
-QUANTITIES = [19, 2, 8, 36, 5, -1, 9999, 13579]
+QUANTITIES = [19, 2, 8.0, 36, 5, -1, 9999, 13579]
 FILENAME = 'output.txt'
 
 counters = []
@@ -22,6 +22,8 @@ counters[-2].addToCount(-9876)
 counters[-2].setInfo("Some potatoes were consumed.")
 counters[0].setCount(0)
 counters[0].setInfo("The bananas were stolen :(")
+counters[2].setCount(-1.0)
+counters[2].addToCount(8.0)
 
 print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + counters[0].getInfo())
 print('')   #Add newline
