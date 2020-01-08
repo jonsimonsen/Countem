@@ -1,12 +1,14 @@
 from unitcounter import UnitCounter
+from unitcounter import readCounters
 
 UNITS = ["bananas", "breads", "chocolate chip cookies", "eggs", "fishes", "milk bottles", "potatoes", "abcdefghijklmnopqrstuvwxyz1234567890"]
 QUANTITIES = [19, 2, 8, 36, 5, -1, 9999, 13579]
+FILENAME = 'output.txt'
 
 counters = []
 counters.append(UnitCounter(UNITS[0], QUANTITIES[0]))
-for index in range(1, len(UNITS) - 1):
-    counters.append(UnitCounter(UNITS[index], QUANTITIES[index]))
+for unit, num in zip(UNITS[1:-1],QUANTITIES[1:-1]):
+    counters.append(UnitCounter(unit, num))
 
 counters.append(UnitCounter(UNITS[-1]))
 
@@ -24,9 +26,16 @@ counters[0].setInfo("The bananas were stolen :(")
 print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + counters[0].getInfo())
 print('')   #Add newline
 
-file = open('output.txt', 'w')
+file = open(FILENAME, 'w')
 for counter in counters:
-    counter.printCounter(True)
+    counter.printCounter(extended=True)
     counter.writeToFile(file)
+
+file.close()
+file = open(FILENAME, 'r')
+counterList = readCounters(file)
+
+for counter in counterList:
+    counter.printCounter(extended=True)
 
 file.close()
