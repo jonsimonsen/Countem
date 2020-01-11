@@ -67,7 +67,7 @@ class UnitCounter(object):
         """Setter for _info"""
         self._info = info
 
-    def printCounter(self, extended = False):
+    def printCounter(self, extended = True):
         """Print the name and value of the counter. Also print info if extended is True."""
 
         if extended:

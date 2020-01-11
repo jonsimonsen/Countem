@@ -13,9 +13,11 @@ Pre-versions: Made a class without the ability to print info directly. Made a te
 -The class has methods for printing a representation of itself and for writing a represenation of itself to an open file.  
 -There is a test file to check that most functionality works satisfactorily.  
 
-# Current version:
+# Version 0.15:
 -The function readCounters() parses a file that contains counters into a list of counter objects.  
--If non-integers are being used to try to mutate the count, nothing is changed and a corresponding message is displayed.
+-If non-integers are being used to try to mutate the count, nothing is changed and a corresponding message is displayed.  
+-The file countem.py has been added for managing counters in a menu-driven environment from terminal/command prompt.  
+-It can read from file, display all counters and add new counters.
 
 # TODO
-Make code that uses the UnitCounter class.  
+Make the countem program able to modify existing counter and save all counters to file.  
