@@ -78,6 +78,36 @@ def addCounter():
 
     return None
 
+def changeCounter(counterList):
+    """Function for creating a new counter based on an existing one and returning the new one along with a reference to the old one.
+    counterList is a list of UnitCounters.
+    The function prompts the user for what counter is to be replaced and then how to change it.
+    Returns a tuple consisting of the new counter and the index of the one to be replaced.
+    Returns None if the user decided to not change anything after all.
+    """
+    #If no counters were provided, there's nothing to change
+    if len(counterList) == 0:
+        return None
+
+    #Print information to the user
+    print("You will now be presented with a list of the counters you can modify.\n
+    Each will be preceded by its index.\n")
+    input("Press enter to continue: ")
+
+    chunksize = 16
+    max_index = len(counterList)
+    current = 0
+
+    for i in range(1 + len(counterList) // chunksize):
+        for j in range(current, max(max_index, current + chunksize)):
+            print(str(j) + ": ", end='')
+            counterList[j].printCounter()
+            print("\nEnter the index of the counter to modify. Alternatively, enter 'n' to see the next page of counters or 'q' to get back to the main menu.\n")
+            choice =input()
+
+
+
+
 #Variable initialization
 running = True
 counters = []
@@ -112,9 +142,25 @@ while running:
             counters.append(counter)
             modified = True
         print ('')  #Add newline for readability
+    elif res == "4":
+        counter = changeCounter(counters)
+    elif res == "5":
+        print("saving will overwrite all content in '" + FILENAME + "'. Are you sure?\n")
+        if getConfirmation():
+            file = open(FILENAME, "w")
+            for counter in counters:
+                counter.writeToFile(file)
+            file.close()
+            modified = False
     elif res == "6":
-        #Could ask if you want to save the latest changes first
-        running = False
-        print("Have a nice day.\n")
+        quitting = True
+        if modified:
+            print("You have made unsaved changes to the counters. Are you sure you want to exit without saving?\n")
+            quitting = getConfirmation()
+            print ('')  #Add newline for readability
+
+        if quitting:
+            running = False
+            print("Have a nice day.\n")
     else:
         print("You entered an invalid option. Try again.\n")
