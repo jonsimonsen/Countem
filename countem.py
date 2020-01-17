@@ -3,6 +3,7 @@ from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
 FILENAME = 'count_out.txt'
 GREETING = "\nWelcome to Countem, an app for counting things.\n\n"
 INFO = "This app will use the file '" + FILENAME + "' in this directory for loading and saving data.\n"
+PAGESIZE = 16   #Number of counters to display on a page (when modifying)
 
 def makeMenu():
     """Makes a menu displaying the options the user can choose from."""
@@ -87,23 +88,46 @@ def changeCounter(counterList):
     """
     #If no counters were provided, there's nothing to change
     if len(counterList) == 0:
+        print("There are no counters to modify.\n")
         return None
 
     #Print information to the user
-    print("You will now be presented with a list of the counters you can modify.\n
-    Each will be preceded by its index.\n")
+    print("You will now be presented with a list of the counters you can modify.\n"
+    "Each will be preceded by its index.\n")
     input("Press enter to continue: ")
 
-    chunksize = 16
     max_index = len(counterList)
+    choice = 'n'
     current = 0
+    options = list(range(len(counterList)))
+    options = [str(i) for i in options]
+    options.append('q')
+    options.append('n')
 
-    for i in range(1 + len(counterList) // chunksize):
-        for j in range(current, max(max_index, current + chunksize)):
-            print(str(j) + ": ", end='')
-            counterList[j].printCounter()
+    #Loop through the list until the user chooses an index or to quit
+    while choice == 'n':
+        for i in range(1 + (len(counterList) - 1) // PAGESIZE):
+            print('\nList of counters, page ' + str(i + 1) + ':\n')
+            for j in range(PAGESIZE):
+                current = PAGESIZE * i + j
+                if current < len(counterList):
+                    print(str(current) + ": ", end='')
+                    counterList[current].printCounter()
+                else:
+                    break
+
             print("\nEnter the index of the counter to modify. Alternatively, enter 'n' to see the next page of counters or 'q' to get back to the main menu.\n")
-            choice =input()
+            choice = ''
+            while not choice in options:
+                choice = input("Choice: ")
+
+            if choice == 'n':
+                continue
+            else:
+                break
+
+    print(choice)
+
 
 
 
