@@ -32,6 +32,26 @@ def getConfirmation():
     else:
         return False
 
+def getPosInt(valName, maxVal):
+    """Prompt the user for an integer until a non-negative integer that is not higher than maxVal is entered. Returns that integer."""
+    #Initial prompt
+    prompt = "Enter " + valName.lower() + " (Max. " + str(maxVal) + "): "
+    num = -1
+    while True:
+        count = input(prompt)
+        #Try to convert to an int. Change the prompt for the next iteration (if any)
+        try:
+            num = int(count)
+            if num < 0:
+                prompt = valName + ' must be a positive integer or zero. Try again: '
+            elif num > maxVal:
+                prompt = valName + ' must be ' + str(maxVal) + ' or less. Try again: '
+            else:
+                break
+        except ValueError:
+            prompt = valName + ' must be an integer. Try again: '
+    return num
+
 def addCounter():
     """Prompts the user for input to create a new counter and asks if it should be added.
     returns the counter if the user says yes and None otherwise."""
@@ -42,21 +62,7 @@ def addCounter():
         name = input("The name must be between 1 and " + str(NAME_LEN) + " characters long. Try again: ")
 
     #Ask for the count
-    prompt = "Enter the count (Max. " + str(10**COUNT_LEN - 1) + "): "
-    num = -1
-    while True:
-        count = input(prompt)
-        #Try to convert to an int. Change the prompt for the next iteration (if any)
-        try:
-            num = int(count)
-            if num < 0:
-                prompt = 'The count must be a positive integer or zero. Try again: '
-            elif num > 10**COUNT_LEN - 1:
-                prompt = 'The count must be ' + str(10**COUNT_LEN - 1) + ' or less. Try again: '
-            else:
-                break
-        except ValueError:
-            prompt = 'The count must be an integer. Try again: '
+    count = getPosInt("The count", 10**COUNT_LEN - 1)
 
     #Create the counter
     counter = UnitCounter(name, int(count))
@@ -126,11 +132,20 @@ def changeCounter(counterList):
             else:
                 break
 
-    print(choice)
+    if choice == 'q':
+        return None
+    else:
+        index = int(choice)
+        counter = counterList[index].makeCopy()
+        print("You can now modify the following counter:\n")
+        counter.printCounter()
+        print("Choose a new value for the count.\n")
+        count = getPosInt("The count", 10**COUNT_LEN - 1)
+        counter.setCount(count)
+        info = input("Choose new value for into: ")
+        counter.setInfo(info)
 
-
-
-
+    return (counter, index)
 
 #Variable initialization
 running = True
@@ -167,7 +182,25 @@ while running:
             modified = True
         print ('')  #Add newline for readability
     elif res == "4":
-        counter = changeCounter(counters)
+        counterTup = changeCounter(counters)
+        counter = counterTup[0]
+
+        #Display the old and new counter and ask if it the changes are ok
+        print ('')  #Add newline for readability
+        print('The original counter was:\n')
+        counters[counterTup[1]].printCounter()
+        print("\nHere is your new counter:\n")
+        counter.printCounter()
+        print ('')  #Add newline for readability
+        print("Do you want to keep these changes?\n")
+        answer = getConfirmation()
+
+        if answer == True:
+            counters[counterTup[1]] = counter
+            print("Counter updated.\n")
+            modified = True
+        else:
+            print('Modification aborted.\n')
     elif res == "5":
         print("saving will overwrite all content in '" + FILENAME + "'. Are you sure?\n")
         if getConfirmation():
@@ -176,6 +209,9 @@ while running:
                 counter.writeToFile(file)
             file.close()
             modified = False
+            print("Data saved.\n")
+        else:
+            print("Save aborted.\n")
     elif res == "6":
         quitting = True
         if modified:

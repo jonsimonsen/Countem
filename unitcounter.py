@@ -67,6 +67,12 @@ class UnitCounter(object):
         """Setter for _info"""
         self._info = info
 
+    def makeCopy(self):
+        """Return a copy of the counter (having the same values for all attributes)"""
+        counter = UnitCounter(self._name, self._count)
+        counter.setInfo(self._info)
+        return counter
+
     def printCounter(self, extended = True):
         """Print the name and value of the counter. Also print info if extended is True."""
 
