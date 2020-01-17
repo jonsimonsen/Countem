@@ -1,9 +1,15 @@
 from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
+import os
 
 FILENAME = 'count_out.txt'
 GREETING = "\nWelcome to Countem, an app for counting things.\n\n"
 INFO = "This app will use the file '" + FILENAME + "' in this directory for loading and saving data.\n"
 PAGESIZE = 16   #Number of counters to display on a page (when modifying)
+
+def clearTerminal():
+    """Clear the terminal or command window that python is running in. Found at
+    https://stackoverflow.com/questions/517970/how-to-clear-the-interpreter-console"""
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def makeMenu():
     """Makes a menu displaying the options the user can choose from."""
@@ -147,6 +153,8 @@ def changeCounter(counterList):
 
     return (counter, index)
 
+#Runnable code
+
 #Variable initialization
 running = True
 counters = []
@@ -156,6 +164,7 @@ print(GREETING + INFO)
 modified = False    #True if counters have been added since last load, false otherwise.
 #loaded, modified, opened
 
+clearTerminal()
 while running:
     makeMenu()
     res = input("Enter the digit corresponding to your choice: ")
@@ -166,12 +175,19 @@ while running:
             print("Loading from file will overwrite all current counters. Are you sure you want to do this?\n")
             reading = getConfirmation() #Do not proceed if the user doesn't confirm
 
+        clearTerminal()
         if reading:
             file = open(FILENAME, "r")
             counters = readCounters(file)
             file.close()
+            print("Data was read from file.\n")
             modified = False
+        else:
+            print("No data was read.\n")
     elif res == "2":
+        clearTerminal()
+        if len(counters) == 0:
+            print("No counters have been added yet.")
         for c in counters:
             c.printCounter()
         print ('')  #Add newline for readability

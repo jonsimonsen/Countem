@@ -19,5 +19,14 @@ Pre-versions: Made a class without the ability to print info directly. Made a te
 -The file countem.py has been added for managing counters in a menu-driven environment from terminal/command prompt.  
 -It can read from file, display all counters and add new counters.
 
+# Current version:
+-Can save all counters to file.  
+-Can modify a counter.  
+-Can clear the terminal to make the output look better.  
+-The UnitCounter class has a method to copy a counter by making a new one with the same values.
+
 # TODO
-Make the countem program able to modify existing counter and save all counters to file.  
+-Make the countem program able to delete existing counters.  
+-Clean up the output. Use the terminal clearing in more places.  
+-Use the stepwise display method for displaying counters and test that it works as intended.  
+-Add more comments and see if code can be refactored more.
