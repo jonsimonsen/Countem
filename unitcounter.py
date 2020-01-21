@@ -16,7 +16,7 @@ class UnitCounter(object):
 
         if len(description) > NAME_LEN:
             self._name = description[0:NAME_LEN]
-            print("Unitcounter description was shortened.\n")
+            print('Unitcounter description was shortened.\n')
         else:
             self._name = description
 
@@ -25,7 +25,7 @@ class UnitCounter(object):
         else:
             print('The counter requires an integer as its value. It will be initialized to zero.\n')
             self._count = 0
-        self._info = ""
+        self._info = ''
 
     def __repr__(self):
         """Return a string representing this counter."""
