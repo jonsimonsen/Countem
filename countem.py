@@ -24,6 +24,52 @@ def makeMenu():
 
     print(header + sep + op1 + op2 + op3 + op4 + op5 + op6)
 
+def browsePages(counterList, modifying = False):
+    """Uses PAGESIZE to display the counters in counterList on several pages. Lets the user navigate to the next page until an escape character or an item selection is made.
+    If modifying is False, the user will not be able to select items. Returns the final input from the user."""
+
+    #max_index = len(counterList)
+    choice = 'n'
+    current = 0
+    options = []
+    promptStr = ""
+    endStr = "'n' to see the next page of counters or 'q' to get back to the main menu.\n"
+
+    if modifying:
+        options = list(range(len(counterList)))
+        options = [str(i) for i in options]
+        promptStr = "\nEnter the index of the counter to modify. Alternatively, enter " + endStr
+    else:
+        promptStr = "\nEnter " + endStr
+    options.append('q')
+    options.append('n')
+
+    #Loop through the list until the user chooses an index or to quit
+    while choice == 'n':
+        for i in range(1 + (len(counterList) - 1) // PAGESIZE):
+            clearTerminal()
+            print('\nList of counters, page ' + str(i + 1) + ':\n')
+            for j in range(PAGESIZE):
+                current = PAGESIZE * i + j
+                if current < len(counterList):
+                    print(str(current) + ": ", end='')
+                    counterList[current].printCounter()
+                else:
+                    break
+
+            print(promptStr)
+            choice = ''
+            while not choice in options:
+                choice = input("Choice: ")
+
+            if choice == 'n':
+                continue
+            else:
+                break
+
+    clearTerminal()
+    return choice
+
 def getConfirmation():
     """Prompts the user for input until 'y' or 'n' has been entered.
     An explanation of what the user can confirm should be given before calling the function.
@@ -177,20 +223,22 @@ while running:
 
         clearTerminal()
         if reading:
-            file = open(FILENAME, "r")
-            counters = readCounters(file)
-            file.close()
-            print("Data was read from file.\n")
-            modified = False
+            try:
+                file = open(FILENAME, "r")
+                counters = readCounters(file)
+                file.close()
+                print("Data was read from file.\n")
+                modified = False
+            except FileNotFoundError:
+                print("There is no file that can be loaded. No changes were made.\n")
         else:
             print("No data was read.\n")
     elif res == "2":
-        clearTerminal()
         if len(counters) == 0:
-            print("No counters have been added yet.")
-        for c in counters:
-            c.printCounter()
-        print ('')  #Add newline for readability
+            clearTerminal()
+            print("No counters have been added yet.\n")
+        else:
+            browsePages(counters)
     elif res == "3":
         counter = addCounter()
         if counter is not None:
@@ -235,8 +283,10 @@ while running:
             quitting = getConfirmation()
             print ('')  #Add newline for readability
 
+        clearTerminal()
         if quitting:
             running = False
             print("Have a nice day.\n")
     else:
+        clearTerminal()
         print("You entered an invalid option. Try again.\n")

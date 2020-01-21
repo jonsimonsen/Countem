@@ -23,10 +23,12 @@ Pre-versions: Made a class without the ability to print info directly. Made a te
 -Can save all counters to file.  
 -Can modify a counter.  
 -Can clear the terminal to make the output look better.  
--The UnitCounter class has a method to copy a counter by making a new one with the same values.
+-The UnitCounter class has a method to copy a counter by making a new one with the same values.  
+-Counters can be displayed stepwise. Need to test with differently sized counter lists.
 
 # TODO
 -Make the countem program able to delete existing counters.  
 -Clean up the output. Use the terminal clearing in more places.  
--Use the stepwise display method for displaying counters and test that it works as intended.  
--Add more comments and see if code can be refactored more.
+-Add more comments and see if code can be refactored more.  
+-Rename files to make it easier to quickly run the different programs.  
+-Consider splitting countem into two files or moving some code to the unitcounter file.
