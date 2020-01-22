@@ -1,16 +1,62 @@
+#Imports
 from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
 import os
 
+#Global constants
 FILENAME = 'count_out.txt'
 GREETING = '\nWelcome to Countem, an app for counting things.\n\n'
 INFO = "This app will use the file '" + FILENAME + "' in this directory for loading and saving data.\n"
 PAGESIZE = 16   #Number of counters to display on a page (when modifying)
+
+###########
+# Methods #
+###########
 
 def clearTerminal():
     """Clear the terminal or command window that python is running in. Found at
     https://stackoverflow.com/questions/517970/how-to-clear-the-interpreter-console
     """
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def getConfirmation():
+    """Prompts the user for input until 'y' or 'n' has been entered.
+    An explanation of what the user can confirm should be given before calling the function.
+    Clears the terminal before returning.
+    Returns True if 'y' and False if 'n'
+    """
+    answer = ''
+
+    while answer not in ['y', 'n']:
+        answer = input("Press 'y' for yes or 'n' for no and hit enter: ")
+    clearTerminal()
+
+    if answer == 'y':
+        return True
+    else:
+        return False
+
+def getPosInt(valName, maxVal):
+    """Prompt the user for an integer until a non-negative integer that is not higher than maxVal is entered. Returns that integer."""
+    #Initial prompt
+    prompt = 'Enter ' + valName.lower() + ' (Max. ' + str(maxVal) + '): '
+    num = -1
+
+    #Loop until valid input is given
+    while True:
+        count = input(prompt)
+        #Try to convert to an int. Change the prompt for the next iteration (if any)
+        try:
+            num = int(count)
+            if num < 0:
+                prompt = valName + ' must be a positive integer or zero. Try again: '
+            elif num > maxVal:
+                prompt = valName + ' must be ' + str(maxVal) + ' or less. Try again: '
+            else:
+                break
+        except ValueError:
+            prompt = valName + ' must be an integer. Try again: '
+
+    return num
 
 def makeMenu():
     """Makes a menu displaying the options the user can choose from."""
@@ -30,7 +76,9 @@ def makeMenu():
 def browsePages(counterList, modifying = False):
     """Uses PAGESIZE to display the counters in counterList on several pages.
     Lets the user navigate to the next page until an escape character or an item selection is made.
-    If modifying is False, the user will not be able to select items. Returns the final input from the user.
+    If modifying is False, the user will not be able to select items.
+    Clears terminal before returning.
+    Returns the final input from the user.
     """
 
     #Variable initialization
@@ -78,48 +126,10 @@ def browsePages(counterList, modifying = False):
     clearTerminal()
     return choice
 
-def getConfirmation():
-    """Prompts the user for input until 'y' or 'n' has been entered.
-    An explanation of what the user can confirm should be given before calling the function.
-    Returns True if 'y' and False if 'n'
-    """
-    answer = ''
-
-    while answer not in ['y', 'n']:
-        answer = input("Press 'y' for yes or 'n' for no and hit enter: ")
-    clearTerminal()
-
-    if answer == 'y':
-        return True
-    else:
-        return False
-
-def getPosInt(valName, maxVal):
-    """Prompt the user for an integer until a non-negative integer that is not higher than maxVal is entered. Returns that integer."""
-    #Initial prompt
-    prompt = 'Enter ' + valName.lower() + ' (Max. ' + str(maxVal) + '): '
-    num = -1
-
-    #Loop until valid input is given
-    while True:
-        count = input(prompt)
-        #Try to convert to an int. Change the prompt for the next iteration (if any)
-        try:
-            num = int(count)
-            if num < 0:
-                prompt = valName + ' must be a positive integer or zero. Try again: '
-            elif num > maxVal:
-                prompt = valName + ' must be ' + str(maxVal) + ' or less. Try again: '
-            else:
-                break
-        except ValueError:
-            prompt = valName + ' must be an integer. Try again: '
-
-    return num
-
 def addCounter():
     """Prompts the user for input to create a new counter and asks if it should be added.
-    returns the counter if the user says yes and None otherwise.
+    Clears the terminal before returning.
+    Returns the counter if the user says yes and None otherwise.
     """
     #Ask for the name of the counter
     clearTerminal()
@@ -145,8 +155,7 @@ def addCounter():
     clearTerminal()
     print('Here is your counter:\n')
     counter.printCounter()
-    print ('')  #Add newline for readability
-    print('Do you want to add it to your list of counters?\n')
+    print('\nDo you want to add it to your list of counters?\n')
 
     if getConfirmation():
         return counter
@@ -157,8 +166,10 @@ def changeCounter(counterList):
     """Function for creating a new counter based on an existing one and returning the new one along with a reference to the old one.
     counterList is a list of UnitCounters.
     The function prompts the user for what counter is to be replaced and then how to change it.
+    Clears the terminal before returning.
     Returns a tuple consisting of the new counter and the index of the one to be replaced.
-    Returns None if the user decided to not change anything after all.
+    The new counter will be returned as None if the user chose to delete a counter.
+    Returns None if the user decided to not change anything after all. Also prints some status info after clearing the terminal when returning None.
     """
     clearTerminal()
     #If no counters were provided, there's nothing to change
@@ -194,7 +205,9 @@ def changeCounter(counterList):
             clearTerminal()
             return (counter, index)
 
-#Runnable code
+##########################
+# Main (executable code) #
+##########################
 
 #Variable initialization
 running = True
@@ -205,10 +218,11 @@ print(GREETING + INFO)
 modified = False    #True if counters have been added since last load, false otherwise.
 
 clearTerminal()
+
+#Main loop
 while running:
     makeMenu()
     res = input('Enter the digit corresponding to your choice: ')
-    #print('')   #Make newline
     if res == '1':
         reading = True
         clearTerminal()
@@ -236,7 +250,6 @@ while running:
             browsePages(counters)
     elif res == '3':
         counter = addCounter()
-        #clearTerminal()
         if counter is None:
             print('No counter was added.\n')
         else:
@@ -286,10 +299,8 @@ while running:
                     counter.writeToFile(file)
                 file.close()
                 modified = False
-                #clearTerminal()
                 print('Data saved.\n')
             else:
-                #clearTerminal()
                 print('Save aborted.\n')
     elif res == '6':
         clearTerminal()
