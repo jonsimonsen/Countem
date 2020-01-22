@@ -1,7 +1,7 @@
 from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
 import os
 
-FILENAME = 'out_count.txt'
+FILENAME = 'count_out.txt'
 GREETING = '\nWelcome to Countem, an app for counting things.\n\n'
 INFO = "This app will use the file '" + FILENAME + "' in this directory for loading and saving data.\n"
 PAGESIZE = 16   #Number of counters to display on a page (when modifying)
@@ -160,6 +160,7 @@ def changeCounter(counterList):
     Returns a tuple consisting of the new counter and the index of the one to be replaced.
     Returns None if the user decided to not change anything after all.
     """
+    clearTerminal()
     #If no counters were provided, there's nothing to change
     if len(counterList) == 0:
         print('There are no counters to modify.\n')
@@ -202,19 +203,27 @@ def changeCounter(counterList):
     choice = browsePages(counterList, True)
 
     if choice == 'q':
+        print('Nothing was changed.\n')
         return None
     else:
         index = int(choice)
-        counter = counterList[index].makeCopy()
         print('You can now modify the following counter:\n')
-        counter.printCounter()
-        print('Choose a new value for the count.\n')
-        count = getPosInt('The count', 10**COUNT_LEN - 1)
-        counter.setCount(count)
-        info = input('Choose new value for into: ')
-        counter.setInfo(info)
+        counterList[index].printCounter()
+        print('\nDo you want to delete it?\n')
+        deletion = getConfirmation()
+        clearTerminal()
 
-    return (counter, index)
+        if deletion:
+            return (None, index)
+        else:
+            counter = counterList[index].makeCopy()
+            print('Choose a new value for the count.\n')
+            count = getPosInt('The count', 10**COUNT_LEN - 1)
+            counter.setCount(count)
+            info = input('Choose new value for info: ')
+            counter.setInfo(info)
+            clearTerminal()
+            return (counter, index)
 
 #Runnable code
 
@@ -233,7 +242,7 @@ while running:
     #print('')   #Make newline
     if res == '1':
         reading = True
-        if modified:
+        if modified and len(counters) > 0:
             print('Loading from file will overwrite all current counters. Are you sure you want to do this?\n')
             reading = getConfirmation() #Do not proceed if the user doesn't confirm
 
@@ -267,40 +276,62 @@ while running:
             print('The counter has been added.\n')
     elif res == '4':
         counterTup = changeCounter(counters)
+
+        if counterTup is None:
+            continue
+
         counter = counterTup[0]
 
-        #Display the old and new counter and ask if it the changes are ok
-        print ('')  #Add newline for readability
+        #Display the old and new counter and ask if the changes are ok
         print('The original counter was:\n')
         counters[counterTup[1]].printCounter()
-        print('\nHere is your new counter:\n')
-        counter.printCounter()
-        print('\nDo you want to keep these changes?\n')
-        answer = getConfirmation()
 
-        if answer == True:
-            counters[counterTup[1]] = counter
-            print('The counter was updated.\n')
-            modified = True
+        if counter is None:
+            print('\nAre you sure you want to delete it?\n')
+            answer = getConfirmation()
+            clearTerminal()
+            if answer == True:
+                counters.pop(counterTup[1])
+                print('The counter has been deleted.\n')
+                modified = True
+            else:
+                print('No changes were made.\n')
         else:
-            print('Modification aborted. No changes were made.\n')
+            print('\nHere is your new counter:\n')
+            counter.printCounter()
+            print('\nDo you want to keep these changes?\n')
+            answer = getConfirmation()
+            clearTerminal()
+
+            if answer == True:
+                counters[counterTup[1]] = counter
+                print('The counter was updated.\n')
+                modified = True
+            else:
+                print('Modification aborted. No changes were made.\n')
     elif res == '5':
-        print("saving will overwrite all content in '" + FILENAME + "'. Are you sure?\n")
-        if getConfirmation():
-            file = open(FILENAME, 'w')
-            for counter in counters:
-                counter.writeToFile(file)
-            file.close()
-            modified = False
-            print('Data saved.\n')
+        clearTerminal()
+        if len(counters) == 0:
+            print("There are no counters to save.\n")
         else:
-            print('Save aborted.\n')
+            print("Saving will overwrite all content in '" + FILENAME + "'. Are you sure?\n")
+            if getConfirmation():
+                file = open(FILENAME, 'w')
+                for counter in counters:
+                    counter.writeToFile(file)
+                file.close()
+                modified = False
+                clearTerminal()
+                print('Data saved.\n')
+            else:
+                clearTerminal()
+                print('Save aborted.\n')
     elif res == '6':
         quitting = True
         if modified:
+            clearTerminal()
             print('You have made unsaved changes to the counters. Are you sure you want to exit without saving?\n')
             quitting = getConfirmation()
-            print ('')  #Add newline for readability
 
         clearTerminal()
         if quitting:
