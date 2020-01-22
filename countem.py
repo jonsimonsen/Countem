@@ -87,6 +87,7 @@ def getConfirmation():
 
     while answer not in ['y', 'n']:
         answer = input("Press 'y' for yes or 'n' for no and hit enter: ")
+    clearTerminal()
 
     if answer == 'y':
         return True
@@ -146,9 +147,8 @@ def addCounter():
     counter.printCounter()
     print ('')  #Add newline for readability
     print('Do you want to add it to your list of counters?\n')
-    answer = getConfirmation()
 
-    if answer == True:
+    if getConfirmation():
         return counter
     else:
         return None
@@ -171,35 +171,6 @@ def changeCounter(counterList):
     'Each will be preceded by its index.\n')
     input('Press enter to continue: ')
 
-    # max_index = len(counterList)
-    # choice = 'n'
-    # current = 0
-    # options = list(range(len(counterList)))
-    # options = [str(i) for i in options]
-    # options.append('q')
-    # options.append('n')
-    #
-    # #Loop through the list until the user chooses an index or to quit
-    # while choice == 'n':
-    #     for i in range(1 + (len(counterList) - 1) // PAGESIZE):
-    #         print('\nList of counters, page ' + str(i + 1) + ':\n')
-    #         for j in range(PAGESIZE):
-    #             current = PAGESIZE * i + j
-    #             if current < len(counterList):
-    #                 print(str(current) + ": ", end='')
-    #                 counterList[current].printCounter()
-    #             else:
-    #                 break
-    #
-    #         print("\nEnter the index of the counter to modify. Alternatively, enter 'n' to see the next page of counters or 'q' to get back to the main menu.\n")
-    #         choice = ''
-    #         while not choice in options:
-    #             choice = input("Choice: ")
-    #
-    #         if choice == 'n':
-    #             continue
-    #         else:
-    #             break
     choice = browsePages(counterList, True)
 
     if choice == 'q':
@@ -210,10 +181,8 @@ def changeCounter(counterList):
         print('You can now modify the following counter:\n')
         counterList[index].printCounter()
         print('\nDo you want to delete it?\n')
-        deletion = getConfirmation()
-        clearTerminal()
 
-        if deletion:
+        if getConfirmation():
             return (None, index)
         else:
             counter = counterList[index].makeCopy()
@@ -242,11 +211,11 @@ while running:
     #print('')   #Make newline
     if res == '1':
         reading = True
+        clearTerminal()
         if modified and len(counters) > 0:
             print('Loading from file will overwrite all current counters. Are you sure you want to do this?\n')
             reading = getConfirmation() #Do not proceed if the user doesn't confirm
 
-        clearTerminal()
         if reading:
             #Try to read from file. Inform the user if the file was not found.
             try:
@@ -267,7 +236,7 @@ while running:
             browsePages(counters)
     elif res == '3':
         counter = addCounter()
-        clearTerminal()
+        #clearTerminal()
         if counter is None:
             print('No counter was added.\n')
         else:
@@ -288,9 +257,7 @@ while running:
 
         if counter is None:
             print('\nAre you sure you want to delete it?\n')
-            answer = getConfirmation()
-            clearTerminal()
-            if answer == True:
+            if getConfirmation():
                 counters.pop(counterTup[1])
                 print('The counter has been deleted.\n')
                 modified = True
@@ -300,10 +267,8 @@ while running:
             print('\nHere is your new counter:\n')
             counter.printCounter()
             print('\nDo you want to keep these changes?\n')
-            answer = getConfirmation()
-            clearTerminal()
 
-            if answer == True:
+            if getConfirmation():
                 counters[counterTup[1]] = counter
                 print('The counter was updated.\n')
                 modified = True
@@ -321,19 +286,18 @@ while running:
                     counter.writeToFile(file)
                 file.close()
                 modified = False
-                clearTerminal()
+                #clearTerminal()
                 print('Data saved.\n')
             else:
-                clearTerminal()
+                #clearTerminal()
                 print('Save aborted.\n')
     elif res == '6':
+        clearTerminal()
         quitting = True
         if modified:
-            clearTerminal()
             print('You have made unsaved changes to the counters. Are you sure you want to exit without saving?\n')
             quitting = getConfirmation()
 
-        clearTerminal()
         if quitting:
             running = False
             print('Have a nice day.\n')
