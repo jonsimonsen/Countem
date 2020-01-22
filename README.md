@@ -33,6 +33,8 @@ UnitCounter is a utility class for counts of objects with a description and an o
 -test_counts.py contains some basic tests of the counter class.  
 -a different file has been made to test a few of the possible cases for input to countem.py. It will not be published in the repo.  
 
+-Changed the repo name to Countem since focus has moved from the counter class itself to the counter management application.  
+
 # Temporary version 0.155:
 -Can save all counters to file.  
 -Can modify a counter.  
@@ -58,4 +60,3 @@ UnitCounter is a utility class for counts of objects with a description and an o
 -Consider preventing loading and saving when nothing has been altered since the last load. Saving can be handled by using the value of modified, and loading can probably be handled by combining len(counters) and modified.  
 -Make a graphical user interface. This is not considered a priority, but it would prevent prompting the user twice about deleting a counter.  
 -Enable loading that does not overwrite the current list of counters. This is especially useful if combining multiple files is desireable.  
--Change the repo name to Countem since focus has moved from the counter class itself to the counter management application.  
