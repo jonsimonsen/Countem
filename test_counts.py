@@ -1,3 +1,14 @@
+####################
+# File description #
+####################
+
+#Creator: Jon Simonsen
+#Version 1.0
+#Last official change: 22.01.19
+
+#Contains code to test that the Unidcounter class and its file reading function
+#works as expected.
+
 from unitcounter import UnitCounter
 from unitcounter import readCounters
 
@@ -25,8 +36,7 @@ counters[0].setInfo('The bananas were stolen :(')
 counters[2].setCount(-1.0)
 counters[2].addToCount(8.0)
 
-print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + counters[0].getInfo())
-print('')   #Add newline
+print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + counters[0].getInfo() + '\n')
 
 file = open(FILENAME, 'w')
 for counter in counters:

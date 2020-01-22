@@ -1,3 +1,14 @@
+####################
+# File description #
+####################
+
+#Creator: Jon Simonsen
+#Version 1.0
+#Last official change: 22.01.19
+
+#Contains a menu-driven environment for managing UnitCounters.
+#This includes adding, modifying, displaying, saving and loading instances.
+
 #Imports
 from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
 import os

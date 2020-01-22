@@ -1,8 +1,21 @@
+####################
+# File description #
+####################
+
+#Creator: Jon Simonsen
+#Version 1.0
+#Last official change: 22.01.19
+
+#Contains a class for UnitCounters, a function for reading these from a file
+#and some class-specific global constants.
+
+#Global constants
 NAME_LEN = 32   #Max Number of characters in UnitCounter's name
 COUNT_LEN = 8   #Max Number of digits in UnitCounter's count
 SEP1 = ': '         #Used between name and count in UnitCounter's repr and str methods.
 SEP2 = '   - ' #Used between count and info in UnitCounter's repr method.
 
+#Class definition
 class UnitCounter(object):
     """A class for counting objects of a certain type"""
 
@@ -85,8 +98,9 @@ class UnitCounter(object):
         """Write the representation of this counter to the file connected to handle. Assumes that the file is in 'w' or 'a' mode."""
         handle.write(repr(self) + '\n')
 
+#Function that creates counter instances from a file
 def readCounters(handle):
-    """Read all Unitcounters from the file that handle handles and return a list of these counters."""
+    """Read all Unitcounters from the file that handle references and return a list of these counters."""
 
     #Initialize variables
     result = []

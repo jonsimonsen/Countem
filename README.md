@@ -1,11 +1,16 @@
-# UnitCounter
-A utility class for counts of objects with a description and an option to add information.
+# Countem
+UnitCounter is a utility class for counts of objects with a description and an option to add information. Countem is an application for managing such counters.
 
 # Usage
 -To use the menu-driven counter management application, run the command python3 countem.py from a terminal in the cloned repo.  
 -A default path for loading and saving counters exists. To make sure that a counter list (file) is safe, it is suggested that lists that you want to keep are copied or moved to other locations (probably a good idea to give them a descriptive name instead of the default one too). If they need to be accessed later, it is suggested that a copy is put back in the repo and given the default name, or that the default name is changed (but make sure that this does not run the risk of overwriting important files).  
 -How to use the utility class will not be explained in detail. I will assume that anyone that uses its filewriting function makes sure that important information is not lost in the process.  
 -A test file can be run with the command python3 test_counts.py after forking this repo. Be aware that the test file will create or overwrite existing files with the name 'out_test.txt' (or some other name if the filename is manually changed in the test file) in that repo.  
+
+# Testing
+-Some basic tests have been run to confirm that the class and the menu-driven app works as expected.  
+-Because everything hasn't been thoroughly tested it is suggested that a clone of the project is kept in its own repo and that executable code is run from there, that changes to paths does not access file space outside that repo and that generated files are backed up in a reasonable place (preferrably outside the repo) so they can be retrieved later if the content gets messed up.  
+-The development has been done in a Linux environment, but the code should work from a Windows command window too. This will probably be tested soon.
 
 # History
 
@@ -53,3 +58,4 @@ A utility class for counts of objects with a description and an option to add in
 -Consider preventing loading and saving when nothing has been altered since the last load. Saving can be handled by using the value of modified, and loading can probably be handled by combining len(counters) and modified.  
 -Make a graphical user interface. This is not considered a priority, but it would prevent prompting the user twice about deleting a counter.  
 -Enable loading that does not overwrite the current list of counters. This is especially useful if combining multiple files is desireable.  
+-Change the repo name to Countem since focus has moved from the counter class itself to the counter management application.  
