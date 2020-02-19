@@ -4,7 +4,7 @@
 
 #Creator: Jon Simonsen
 #Version 1.0
-#Last official change: 22.01.19
+#Last official change: 22.01.20
 
 #Contains a class for UnitCounters, a function for reading these from a file
 #and some class-specific global constants.

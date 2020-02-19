@@ -4,7 +4,7 @@
 
 #Creator: Jon Simonsen
 #Version 1.0
-#Last official change: 22.01.19
+#Last official change: 22.01.20
 
 #Contains a menu-driven environment for managing UnitCounters.
 #This includes adding, modifying, displaying, saving and loading instances.

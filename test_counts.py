@@ -4,7 +4,7 @@
 
 #Creator: Jon Simonsen
 #Version 1.0
-#Last official change: 22.01.19
+#Last official change: 22.01.20
 
 #Contains code to test that the Unidcounter class and its file reading function
 #works as expected.
