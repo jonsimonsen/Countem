@@ -12,16 +12,16 @@
 #Imports
 from unitcounter import UnitCounter, readCounters
 from manager.manager import Manager
-from manager.user_io import getPosInt
+from manager.user_io import getPosInt, clearTerminal
 import os
 
-class CountManager(object):
+class CountManager(Manager):
     """A class for managing counts (UnitCount objects)."""
     _fileName = 'count_out.txt'
     _greeting = '\nWelcome to Countem, an app for managing counts of things.\n\n'
     _info = "The app will use the file '" + _fileName + "' in this directory for loading and saving data.\n"
 
-    def addObject():
+    def addObject(self):
         """Class specific helper for the add method that does the actual creation of a new unitcounter object.
 
         Prompts the user for input to create a new counter.
@@ -36,12 +36,12 @@ class CountManager(object):
 
         #Ask for the count
         clearTerminal()
-        count = getPosInt('The count', 10**COUNT_LEN - 1)
+        count = getPosInt('The count', 10**UnitCounter._countLen - 1)
 
         #Create the counter
         return UnitCounter(name, int(count))
 
-    def changeObject(index):
+    def changeObject(self, index):
         """Function for creating a new counter based on an existing one and returning the new one along with a reference to the old one.
         counterList is a list of UnitCounters.
         The function prompts the user for what counter is to be replaced and then how to change it.
