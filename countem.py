@@ -11,6 +11,7 @@
 
 #Imports
 from unitcounter import UnitCounter, readCounters, NAME_LEN, COUNT_LEN
+from manager.manager import Manager
 import os
 
 #Global constants

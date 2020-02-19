@@ -131,4 +131,4 @@ dmypy.json
 # Custom paths
 output/
 #The user must set up the manager from the manager repo
-Manager/
+manager/
