@@ -3,7 +3,7 @@
 ####################
 
 #Creator: Jon Simonsen
-#Version 1.0+
+#Version 1.1
 #Last official change: 19.02.20
 
 #Contains a class for UnitCounters, a function for reading these from a file

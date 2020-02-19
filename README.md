@@ -2,6 +2,7 @@
 UnitCounter is a utility class for counts of objects with a description and an option to add information. Countem is an application for managing such counters.
 
 # Usage
+-How to install dependent packages for versions 1.1 and later should be included soon.  
 -To use the menu-driven counter management application, run the command python3 countem.py from a terminal in the cloned repo.  
 -A default path for loading and saving counters exists. To make sure that a counter list (file) is safe, it is suggested that lists that you want to keep are copied or moved to other locations (probably a good idea to give them a descriptive name instead of the default one too). If they need to be accessed later, it is suggested that a copy is put back in the repo and given the default name, or that the default name is changed (but make sure that this does not run the risk of overwriting important files).  
 -How to use the utility class will not be explained in detail. I will assume that anyone that uses its filewriting function makes sure that important information is not lost in the process.  
@@ -13,6 +14,12 @@ UnitCounter is a utility class for counts of objects with a description and an o
 -The development has been done in a Linux environment, but the code should work from a Windows command window too. This will probably be tested soon.
 
 # History
+
+# Version 1.1:
+-Fixed some incorrect dates in the file headers.  
+-Reorganized the Counter class to inherit from a different base class (Saveable).  
+-Reorganized the app to be a class based on the parent class Manager instead of just being an executable loop.  
+-The parents and some of the utility functions will be distributed in their own repo. To run versions higher than 1.0, this repo must be downloaded and put inside the repo that the code is run from. This has not been tested yet. If it doesn't work, try to download version 1.0 for now.  
 
 # Version 1 (complete description):
 -unitcounter.py contains a class for counting units ranging from 0 to 99999999 (the highest number that can be displayed with COUNT_LEN digits).  

@@ -3,8 +3,8 @@
 ####################
 
 #Creator: Jon Simonsen
-#Version 1.0
-#Last official change: 22.01.20
+#Version 1.1
+#Last official change: 19.02.20
 
 #Contains code to test that the Unidcounter class and its file reading function
 #works as expected.
@@ -24,7 +24,7 @@ for unit, num in zip(UNITS[1:-1],QUANTITIES[1:-1]):
 counters.append(UnitCounter(UNITS[-1]))
 
 for counter in counters:
-    counter.printCounter()
+    counter.printObject(extended=False)
 
 print('')   #Add newline
 counters[-1].addToCount(QUANTITIES[-1])
@@ -40,7 +40,7 @@ print(counters[0].getName() + '   ' + str(counters[0].getCount()) + '   ' + coun
 
 file = open(FILENAME, 'w')
 for counter in counters:
-    counter.printCounter(extended=True)
+    counter.printObject(extended=True)
     counter.writeToFile(file)
 
 file.close()
@@ -48,6 +48,6 @@ file = open(FILENAME, 'r')
 counterList = readCounters(file)
 
 for counter in counterList:
-    counter.printCounter(extended=True)
+    counter.printObject(extended=True)
 
 file.close()
